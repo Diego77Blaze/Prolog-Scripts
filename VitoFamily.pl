@@ -47,7 +47,27 @@ progenitor(Progenitor, Hijo):- progenitor_de(Progenitor,Hijo).
 ancestro(X, Y):-progenitor(Y,X).
 ancestro(X, Y):-progenitor(Y,Z),ancestro(X,Z).
 
-descendientes(X,Y):-
+
+descendiente(Padre,Desc):-progenitor(Padre,Desc).
+descendiente(Padre,Desc):-progenitor(Padre,Hijo),descendiente(Hijo,Desc).
+
+descendientes(X):- append([],[X],ListaConVito),descendientesaux(X,ListaConVito).
+descendientesaux(X,ListaDescendientes):-
+   descendiente(X,Z),
+   not(member(Z,ListaDescendientes)),!,
+   append(ListaDescendientes,[Z],ListaDescendientesFinal),
+   descendientesaux(X,ListaDescendientesFinal).
+descendientesaux(_,ListaDescendientes):-writeln(ListaDescendientes).
+
+
+hermano(X, Y):-progenitor(Z,X),progenitor(Z,Y).
+abuelo(X,Y):-progenitor(X,Z),progenitor(Z,Y).
+nieto(Y,X):-progenitor(X,Z),progenitor(Z,Y).
+tio(X,Y):-hermano(X,Z),progenitor(Z,Y).
+sobrino(Y,X):-hermano(X,Z),progenitor(Z,Y).
+
+relacion(X,Y,R):-call(R(X,Y)).
+
 
 
 
