@@ -66,10 +66,40 @@ nieto(Y,X):-progenitor(X,Z),progenitor(Z,Y).
 tio(X,Y):-hermano(X,Z),progenitor(Z,Y).
 sobrino(Y,X):-hermano(X,Z),progenitor(Z,Y).
 
-relacion(X,Y,R):-call(R(X,Y)).
+relacionaux(Relacion):- (Relacion = ancestro).
+relacionaux(Relacion):- (Relacion = progenitor).
+relacionaux(Relacion):- (Relacion = abuelo).
+relacionaux(Relacion):- (Relacion = nieto).
+relacionaux(Relacion):- (Relacion = tio).
+relacionaux(Relacion):- (Relacion = sobrino).
 
 
 
+relacion(X,Y,Relacion):- relacionaux(Relacion),call(Relacion,X,Y).
+
+hermanos(Persona, ListaAux, ListaHermanos):-  %PROBAR CON hermanos(carlos,[],X).
+   hermano(Persona,Hermano),
+   \+ member(Hermano,ListaAux), !,
+   append(ListaAux,[Hermano],ListaAux2),
+   hermanos(Persona,ListaAux2,ListaHermanos).
+hermanos(_,ListaHermanos,ListaHermanos).
+
+
+pedir_numero(Min,Max,Out):-
+    repeat,
+    write('Introduce un numero entre '),
+    write(Min),write(' y '),write(Max),writeln(':'),
+    read(Out),
+    ((Out >= Min, Out =< Max,!);
+    writeln('Dato Incorrecto'), false).%la cortadura es la que para el repeat cuando sea verdadero.
+
+
+simbolos([a,b,c,b,a]).
+listasdelistas([[q,w,e,r],[a,s,d,f],[z,x,c,v]]).
+reemplazar_simbolo_lista(Lista,IndiceSubLista,ValorOriginal,ValorNuevo,ListaOut):-
+   nth1(IndiceSubLista,Lista,Sublista,Res),
+   select(ValorOri,Sublista,ValorNuevo,SubListaout),
+   nth1(IndiceSubLista,ListaOut,SubListaout,Res).
 
 
 
