@@ -60,7 +60,7 @@ descendientesaux(X,ListaDescendientes):-
 descendientesaux(_,ListaDescendientes):-writeln(ListaDescendientes).
 
 
-hermano(X, Y):-progenitor(Z,X),progenitor(Z,Y).
+hermano(X, Y):-progenitor(Z,X),progenitor(Z,Y), \+ (X=Y).
 abuelo(X,Y):-progenitor(X,Z),progenitor(Z,Y).
 nieto(Y,X):-progenitor(X,Z),progenitor(Z,Y).
 tio(X,Y):-hermano(X,Z),progenitor(Z,Y).
@@ -77,7 +77,7 @@ relacionaux(Relacion):- (Relacion = sobrino).
 
 relacion(X,Y,Relacion):- relacionaux(Relacion),call(Relacion,X,Y).
 
-hermanos(Persona, ListaAux, ListaHermanos):-  %PROBAR CON hermanos(carlos,[],X).
+hermanos(Persona, ListaAux, ListaHermanos):-  %PROBAR CON hermanos(michael,[],X).
    hermano(Persona,Hermano),
    \+ member(Hermano,ListaAux), !,
    append(ListaAux,[Hermano],ListaAux2),
