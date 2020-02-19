@@ -21,3 +21,10 @@ crear_lista(ListaAux, ListaOut):-
     append(ListaAux, [X], ListaAux2),
     crear_lista(ListaAux2,ListaOut).
 crear_lista(ListaOut ,ListaOut).
+
+atacar(Atacante,Defensor,DefensorFinal):-
+   Defensor=[NombreDefensor,VidaDefensor,AtaqueDefensor],
+   Atacante=[NombreAtacante,VidaAtacante,AtaqueAtacante],
+
+   VidaFinal is VidaDefensor-AtaqueAtacante,
+   DefensorFinal=[NombreDefensor,VidaFinal,AtaqueDefensor].
